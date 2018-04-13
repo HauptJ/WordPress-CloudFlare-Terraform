@@ -4,20 +4,23 @@ resource "cloudflare_record" "wordpress_ipv6_cf" {
   value = "${digitalocean_droplet.wordpress.ipv6_address}"
   type = "AAAA"
   proxied = true
+  depends_on = ["digitalocean_droplet.wordpress"]
 }
 
 resource "cloudflare_record" "wordpress_ipv6_bypass" {
   domain = "${var.domains_wordpress}"
-  name = "${var.dns_ipv6_bypass}"
+  name = "${var.dns_cf_bypass}"
   value = "${digitalocean_droplet.wordpress.ipv6_address}"
   type = "AAAA"
   proxied = false
+  depends_on = ["digitalocean_droplet.wordpress"]
 }
 
 resource "cloudflare_record" "wordpress_ipv4_bypass" {
-  domain = "${var.domains.wordpress}"
-  name = "${var.dns_ipv4_bypass}"
+  domain = "${var.domains_wordpress}"
+  name = "${var.dns_cf_bypass}"
   value = "${digitalocean_droplet.wordpress.ipv4_address}"
   type = "A"
   proxied = false
+  depends_on = ["digitalocean_droplet.wordpress"]
 }
