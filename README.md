@@ -3,6 +3,8 @@ Terraform script to orchestrate deployment of WordPress on a DigitalOcean VPS wi
 
 USAGE
 -----
+- To pull the submodules, use: `git submodule update --init --recursive`
+Read: [Easy way to pull latest of all git submodules](https://stackoverflow.com/questions/1030169/easy-way-to-pull-latest-of-all-git-submodules)
 
 - Set the variables in `variables.tf` to your domain name, preferred DO region and droplet size.
 **NOTE:** Droplet size must be at least 2gb.
