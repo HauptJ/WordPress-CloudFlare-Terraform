@@ -13,6 +13,8 @@ resource "digitalocean_droplet" "wordpress" {
     private_key = "${file(var.pvt_key)}"
     timeout = "2m"
   }
+
+  # Prepare the server for Ansible provisioning
   provisioner "remote-exec" {
     inline = [
       "yum -y --enablerepo=extras install epel-release",
@@ -25,6 +27,8 @@ resource "digitalocean_droplet" "wordpress" {
       "ansible-galaxy install HauptJ.php-fpm",
     ]
   }
+
+  # Generate Ansible inventory file
   provisioner "local-exec" {
     command = "echo '[wordpress]' >> inventory/wordpress/wordpress.inventory"
   }
@@ -37,6 +41,8 @@ resource "digitalocean_droplet" "wordpress" {
   provisioner "local-exec" {
     command = "echo 'ansible_ssh_private_key_file=${var.pvt_key}' >> inventory/wordpress/wordpress.inventory"
   }
+
+  # Provision the server with Ansible
   provisioner "local-exec" {
     command = "ssh-keyscan ${digitalocean_droplet.wordpress.ipv4_address} >> ~/.ssh/known_hosts"
   }
