@@ -1,17 +1,8 @@
-##### DigitalOcean Vars #####
-variable "do_token" {}
-variable "pub_key" {}
-variable "pvt_key" {}
-variable "ssh_fingerprint" {}
+##### OVH OpenStack Vars #####
 
 ##### CloudFlare Vars #####
 variable "cf_email" {}
 variable "cf_token" {}
-
-##### DigitalOcean #####
-provider "digitalocean" {
-  token = "${var.do_token}"
-}
 
 ##### OVH OpenStack #####
 provider "openstack" {
@@ -21,7 +12,7 @@ provider "openstack" {
 }
 
 provider "ovh" {
-  endpoint = "ovh-ca" # ovh-ca for Americas ovh-eu for less desirable locations
+  endpoint = "ovh-ca" # ovh-ca for Americas, ovh-eu for less desirable locations
   alias = "ovh"
 }
 

@@ -9,12 +9,12 @@ resource "openstack_compute_keypair_v2" "ovh_keypair" {
 resource "openstack_compute_instance_v2" "wordpress" {
   name = "wordpress"
   provider = "openstack.ovh"
-  image_name =
-  flavor_name =
-  region = "BHS3"
+  image_name = "wordpress"
+  flavor_name = "FILLMEIN"
+  region = "${var.os_region}"
   # Get the name of the ssh key pair
   key_pair = "${openstack_compute_keypair_v2.ovh_keypair.name}"
   network {
-    name = "Ext-Net" # OVH Default public network
+    name = "${var.os_net}" # OVH Default public network
   }
 }
