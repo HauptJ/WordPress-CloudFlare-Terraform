@@ -1,4 +1,12 @@
 *.tfplan
 *.tfstate*
+*.key
+*.pub
+*.vault
+# have to support both UNIX and DOS directories
+\.vagrant
+/.vagrant
+\.terraform
+/.terraform
 \plugins
 /plugins

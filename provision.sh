@@ -1,0 +1,25 @@
+#!/bin/bash -eux
+
+# Script to provision Vagrant Utility
+
+pushd /vagrant
+# Install Dependencies from Ansible Galaxy
+ansible-galaxy install geerlingguy.repo-epel
+ansible-galaxy install geerlingguy.repo-remi
+ansible-galaxy install HauptJ.mariadb
+ansible-galaxy install HauptJ.redis
+ansible-galaxy install HauptJ.openresty
+ansible-galaxy install HauptJ.php-fpm
+# Copy vault password file
+cp ansible/vault_test.txt ~/vault_test.txt
+cp deploy.vault ~/deploy.vault
+chmod -x ~/vault_test.txt
+# Prepare SSH
+mkdir -p ~/.ssh
+cp deploy.key ~/.ssh/
+cp deploy.pub ~/.ssh/
+chmod 700 ~/.ssh
+chmod 400 ~/.ssh/*
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/deploy.key
+popd

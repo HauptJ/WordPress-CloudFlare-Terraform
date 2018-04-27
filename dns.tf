@@ -1,6 +1,6 @@
 resource "cloudflare_record" "wordpress_ipv6_cf" {
-  domain = "${var.domains_wordpress}"
-  name = "${var.domains_wordpress}"
+  domain = "${var.cf_dns_wordpress}"
+  name = "${var.cf_dns_wordpress}"
   value = "${digitalocean_droplet.wordpress.ipv6_address}"
   type = "AAAA"
   proxied = true
@@ -8,8 +8,8 @@ resource "cloudflare_record" "wordpress_ipv6_cf" {
 }
 
 resource "cloudflare_record" "wordpress_ipv6_bypass" {
-  domain = "${var.domains_wordpress}"
-  name = "${var.dns_cf_bypass}"
+  domain = "${var.cf_dns_wordpress}"
+  name = "${var.cf_dns_wordpress_bypass}"
   value = "${digitalocean_droplet.wordpress.ipv6_address}"
   type = "AAAA"
   proxied = false
@@ -17,10 +17,39 @@ resource "cloudflare_record" "wordpress_ipv6_bypass" {
 }
 
 resource "cloudflare_record" "wordpress_ipv4_bypass" {
-  domain = "${var.domains_wordpress}"
-  name = "${var.dns_cf_bypass}"
+  domain = "${var.cf_dns_wordpress}"
+  name = "${var.cf_dns_wordpress_bypass}"
   value = "${digitalocean_droplet.wordpress.ipv4_address}"
   type = "A"
   proxied = false
   depends_on = ["digitalocean_droplet.wordpress"]
+}
+
+##### CV Server #####
+
+resource "cloudflare_record" "cv_ipv6_cf" {
+  domain = "${var.cf_dns_cv}"
+  name = "${var.cf_dns_cv}"
+  value = "${digitalocean_droplet.cv.ipv6_address}"
+  type = "AAAA"
+  proxied = true
+  depends_on = ["digitalocean_droplet.cv"]
+}
+
+resource "cloudflare_record" "cv_ipv6_bypass" {
+  domain = "${var.cf_dns_cv}"
+  name = "${var.cf_dns_cv_bypass}"
+  value = "${digitalocean_droplet.wordpress.ipv6_address}"
+  type = "AAAA"
+  proxied = false
+  depends_on = ["digitalocean_droplet.cv"]
+}
+
+resource "cloudflare_record" "cv_ipv4_bypass" {
+  domain = "${var.cf_dns_cv}"
+  name = "${var.cf_dns_cv_bypass}"
+  value = "${digitalocean_droplet.cv.ipv4_address}"
+  type = "A"
+  proxied = false
+  depends_on = ["digitalocean_droplet.cv"]
 }
