@@ -14,6 +14,7 @@ ansible-galaxy install HauptJ.php-fpm
 cp ansible/vault_test.txt ~/vault_test.txt
 cp deploy.vault ~/deploy.vault
 chmod -x ~/vault_test.txt
+chmod -x ~/deploy.vault
 # Prepare SSH
 mkdir -p ~/.ssh
 cp deploy.key ~/.ssh/

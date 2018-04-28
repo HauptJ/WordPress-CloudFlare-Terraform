@@ -89,12 +89,12 @@ Vagrant.configure("2") do |config|
   }
 
 
-  config.vm.define "utility" do |utility|
-    utility.vm.box = $centos_box
-    utility.vm.box_version = $centos_box_ver
-    utility.ssh.username = "root"
+  config.vm.define "terraform" do |terraform|
+    terraform.vm.box = $centos_box
+    terraform.vm.box_version = $centos_box_ver
+    terraform.ssh.username = "root"
 
-  	utility.vm.provider "hyperv" do |hv|
+  	terraform.vm.provider "hyperv" do |hv|
   		hv.vmname = $utility_vmname
   		# With nested virtualization, at least 2 CPUs are needed.
   		hv.cpus = $vcpus
@@ -105,7 +105,7 @@ Vagrant.configure("2") do |config|
   	end
 
     # Provision box
-    utility.vm.provision "shell", path: "provision.sh"
+    terraform.vm.provision "shell", path: "provision.sh"
 
   end
 
