@@ -47,11 +47,11 @@ resource "digitalocean_droplet" "cv" {
 
   # Check playbook syntax
   provisioner "local-exec" {
-    command = "ansible-playbook --vault-password-file ~/vault_test.txt -i inventory/deploy.inventory ansible/cv.yml --syntax-check"
+    command = "ansible-playbook --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ansible/cv.yml --syntax-check"
   }
 
   # Provision server
   provisioner "local-exec" {
-    command = "ansible-playbook -e 'host_key_checking=False' --vault-password-file ~/vault_test.txt -i inventory/deploy.inventory ansible/cv.yml"
+    command = "ansible-playbook -e 'host_key_checking=False' --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ansible/cv.yml"
   }
 }

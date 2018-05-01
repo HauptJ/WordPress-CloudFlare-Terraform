@@ -3,6 +3,9 @@
 *.key
 *.pub
 *.vault
+plan.sh
+destroy.sh
+variables.tf
 # have to support both UNIX and DOS directories
 \.vagrant
 /.vagrant
@@ -10,3 +13,5 @@
 /.terraform
 \plugins
 /plugins
+\inventory
+/inventory

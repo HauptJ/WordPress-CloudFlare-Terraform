@@ -56,11 +56,11 @@ resource "digitalocean_droplet" "wordpress" {
 
   # Check playbook syntax
   provisioner "local-exec" {
-    command = "ansible-playbook --vault-password-file ~/vault_test.txt -i inventory/deploy.inventory ansible/wordpress.yml --syntax-check"
+    command = "ansible-playbook --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ansible/wordpress.yml --syntax-check"
   }
 
   # Provision server
   provisioner "local-exec" {
-    command = "ansible-playbook -e 'host_key_checking=False' --vault-password-file ~/vault_test.txt -i inventory/deploy.inventory ansible/wordpress.yml"
+    command = "ansible-playbook -e 'host_key_checking=False' --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ansible/wordpress.yml"
   }
 }
