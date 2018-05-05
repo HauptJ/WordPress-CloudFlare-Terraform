@@ -1,3 +1,4 @@
+# DEPRECIATED
 # Creates and provisions DO cloud server for WordPress
 
 resource "digitalocean_droplet" "wordpress" {
@@ -20,6 +21,11 @@ resource "digitalocean_droplet" "wordpress" {
     inline = [
       "yum update -y"
     ]
+  }
+
+  # Delete all SSH known hosts
+  provisioner "local-exec" {
+    command = "rm ~/.ssh/known_hosts"
   }
 
   # Make sure the Ansible inventory file exists

@@ -82,11 +82,19 @@ Vagrant.configure("2") do |config|
   #
 
   # Configure SMB Directory Sharing
+  # NOTE:
+  # Export VAGRANT_SMB_USERNAME: $env:VAGRANT_SMB_USERNAME="username"
+  # Export VAGRANT_SMB_PASSWORD: $env:VAGRANT_SMB_PASSWORD="password"
   config.vm.synced_folder '.', '/vagrant', {
     type: 'smb', mount_options: ['vers=3.0'],
     smb_username: ENV['VAGRANT_SMB_USERNAME'],
     smb_password: ENV['VAGRANT_SMB_PASSWORD']
   }
+
+  # NOTE: This is specific for my machine
+  # Change bridge: "LANBridge" to the name of your
+  # External V-Switch
+  config.vm.network "public_network", bridge: "LANBridge"
 
 
   config.vm.define "terraform" do |terraform|

@@ -1,3 +1,4 @@
+# DEPRECIATED
 # Creates and provisions DO cloud server for static CV site
 
 resource "digitalocean_droplet" "cv" {

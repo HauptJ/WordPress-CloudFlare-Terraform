@@ -1,3 +1,6 @@
+# DEPRECIATED
+##### WordPress Server #####
+
 resource "cloudflare_record" "wordpress_ipv6_cf" {
   domain = "${var.cf_dns_wordpress}"
   name = "${var.cf_dns_wordpress}"
@@ -39,7 +42,7 @@ resource "cloudflare_record" "cv_ipv6_cf" {
 resource "cloudflare_record" "cv_ipv6_bypass" {
   domain = "${var.cf_dns_cv}"
   name = "${var.cf_dns_cv_bypass}"
-  value = "${digitalocean_droplet.wordpress.ipv6_address}"
+  value = "${digitalocean_droplet.cv.ipv6_address}"
   type = "AAAA"
   proxied = false
   depends_on = ["digitalocean_droplet.cv"]
