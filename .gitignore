@@ -3,6 +3,7 @@
 *.key
 *.pub
 *.vault
+vault.yml
 plan.sh
 destroy.sh
 variables.tf
