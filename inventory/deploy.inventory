@@ -1,0 +1,8 @@
+[wordpress]
+2604:a880:0800:00a1:0000:0000:0bf7:1001
+[wordpress:vars]
+ansible_ssh_private_key_file=/root/.ssh/deploy.key
+[cv]
+2604:a880:0800:00a1:0000:0000:0f21:2001
+[cv:vars]
+ansible_ssh_private_key_file=/root/.ssh/deploy.key

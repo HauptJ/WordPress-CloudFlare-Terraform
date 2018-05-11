@@ -1,0 +1,13 @@
+# Only allow inbound http and https from CloudFlare IP addresses
+# SEE: https://www.digitalocean.com/community/projects/terraform-digitalocean-firewall-cloudflare
+
+module "firewall_inbound_cloudflare" {
+  source = "andrewsomething/firewall-cloudflare/digitalocean"
+
+  name   = "inbound-cloudflare"
+  tags   = ["allow_inbound_cloudflare"]
+}
+
+resource "digitalocean_tag" "allow_inbound_cloudflare" {
+  name = "allow_inbound_cloudflare"
+}
