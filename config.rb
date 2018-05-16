@@ -3,8 +3,8 @@
 # If you wish to use another Vagrant box, you will have to uncomment the
 # commented out commands. See: Vagrantfile
 
-$centos_box = "hauptj/CentOS74"
-$centos_box_ver = "26.4.2018"
+$centos_box = "hauptj/CentOS75"
+$centos_box_ver = "11.5.2018"
 $utility_vmname = "terraform"
 
 # NOTE: By default, at least 2 vcpus are required to compile OpenResty from source.
