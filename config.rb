@@ -4,8 +4,9 @@
 # commented out commands. See: Vagrantfile
 
 $centos_box = "hauptj/CentOS75"
-$centos_box_ver = "11.5.2018"
+$centos_box_ver = "1.1.0"
 $utility_vmname = "terraform"
+$ssh_user = "root"
 
 # NOTE: By default, at least 2 vcpus are required to compile OpenResty from source.
 # SEE: group_vars/all.yml.example

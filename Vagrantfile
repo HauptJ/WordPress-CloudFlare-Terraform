@@ -100,7 +100,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "terraform" do |terraform|
     terraform.vm.box = $centos_box
     terraform.vm.box_version = $centos_box_ver
-    terraform.ssh.username = "root"
+    terraform.ssh.username = $ssh_user
 
   	terraform.vm.provider "hyperv" do |hv|
   		hv.vmname = $utility_vmname

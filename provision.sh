@@ -3,6 +3,8 @@
 # Script to provision Vagrant Utility
 
 pushd /vagrant
+# Install Dynamic Inventory utility
+go get github.com/adammck/terraform-inventory
 # Install Dependencies from Ansible Galaxy
 ansible-galaxy install geerlingguy.repo-epel
 ansible-galaxy install geerlingguy.repo-remi
@@ -19,8 +21,10 @@ chmod -x ~/deploy.vault
 mkdir -p ~/.ssh
 cp deploy.key ~/.ssh/
 cp deploy.pub ~/.ssh/
+cp ssh_config ~/.ssh/config
 chmod 700 ~/.ssh
 chmod 400 ~/.ssh/*
+chmod 600 ~/.ssh/config
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/deploy.key
 popd

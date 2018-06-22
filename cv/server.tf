@@ -24,50 +24,28 @@ resource "digitalocean_droplet" "cv" {
     ]
   }
 
-  # Delete all SSH known hosts
+  # Make sure known hosts exists
   provisioner "local-exec" {
-    command = "rm ~/.ssh/known_hosts"
+    command = "touch ~/.ssh/known_hosts"
   }
 
-  # Make sure the Ansible inventory file exists
+  # Make sure known_hosts is empty
   provisioner "local-exec" {
-    command = "touch inventory/deploy.inventory"
+    command = "cp /dev/null ~/.ssh/known_hosts"
   }
 
-  # Make sure the Ansible inventory file is empty
+  # To provision over IPv6 replace "ipv4_address" with "ipv6_address" and use ssh-keyscan -t rsa -6v
   provisioner "local-exec" {
-    command = "cp /dev/null inventory/deploy.inventory"
-  }
-
-  # Generate an entry in Ansible inventory file
-  provisioner "local-exec" {
-    command = "echo '[cv]' >> inventory/deploy.inventory"
-  }
-
-  provisioner "local-exec" {
-    command = "echo '${digitalocean_droplet.cv.ipv6_address}' >> inventory/deploy.inventory"
-  }
-
-  provisioner "local-exec" {
-    command = "echo '[cv:vars]' >> inventory/deploy.inventory"
-  }
-
-  provisioner "local-exec" {
-    command = "echo 'ansible_ssh_private_key_file=${var.pvt_key}' >> inventory/deploy.inventory"
-  }
-
-  # To provision over IPv4 replace "ipv6_address" with "ipv4_address"
-  provisioner "local-exec" {
-    command = "ssh-keyscan -t rsa -6v ${digitalocean_droplet.cv.ipv6_address} >> ~/.ssh/known_hosts"
+    command = "ssh-keyscan -t rsa ${digitalocean_droplet.cv.ipv4_address} >> ~/.ssh/known_hosts"
   }
 
   # Check playbook syntax
   provisioner "local-exec" {
-    command = "ansible-playbook --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ../ansible/cv.yml --syntax-check"
+    command = "TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/cv.yml --syntax-check"
   }
 
   # Provision server
   provisioner "local-exec" {
-    command = "ansible-playbook -e 'host_key_checking=False' --vault-password-file ~/deploy.vault -i inventory/deploy.inventory ../ansible/cv.yml"
+    command = "TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/cv.yml"
   }
 }
