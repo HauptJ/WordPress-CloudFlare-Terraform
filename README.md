@@ -78,13 +78,55 @@ terraform plan -destroy -out=terraform.tfplan \
 Apply the Terraform plan.
 - `terraform apply terraform.tfplan`
 
-When you run the plan to deploy everything, an inventory file with the IP addresses of the servers will be automatically generated. The inventory file is located in `inventory/deploy.inventory`. **NOTE:** by default, the IPv6 addresses of the servers will be inserted into the inventory file, to change this you can replace
-`ipv6_address` with `ipv4_address`.
+To run the Ansible playbook, use [terraform-inventory ](https://github.com/adammck/terraform-inventory), with the following command:
+- `TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress.yml
+`
 
-The automatically generated Ansible inventory file should look like this:
+Better yet, put everything in a group of scripts.
+
+**build.sh:** deploys everything
+
 ```
-[wordpress]
-2604:a880:0800:00a1:0000:0000:1d32:5001
-[wordpress:vars]
-ansible_ssh_private_key_file=/root/.ssh/priv_key
+#!/bin/bash -eux
+
+# Plan Infrastructure
+terraform init
+terraform plan -out=wordpress_up.tfplan \
+  -var "do_token=$DO_PAT" \
+  -var "cf_email=$CF_EMAIL" \
+  -var "cf_token=$CF_PAT" \
+  -var "pub_key=$HOME/.ssh/pub_key.pub" \
+  -var "pvt_key=$HOME/.ssh/priv_key" \
+  -var "ssh_fingerprint=75:b0:fc:16:8a:f6:32:a7:fe:a5:93:90:ad:b8:0a:12"
+
+# Build infrastructure
+terraform apply "wordpress_up.tfplan"
+
+# Ansible Playbook Syntax check
+TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress.yml --syntax-check
+
+# Run Ansible Playbook
+TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress.yml
 ```
+
+**destroy.sh:** generates the destroy plan and backs up the database and uploads
+```
+#!/bin/bash -eux
+
+# Generates plan to destroy infrastructure
+
+terraform plan -destroy -out=wordpress_down.tfplan \
+  -var "do_token=$DO_PAT" \
+  -var "cf_email=$CF_EMAIL" \
+  -var "cf_token=$CF_PAT" \
+  -var "pub_key=$HOME/.ssh/pub_key.pub" \
+  -var "pvt_key=$HOME/.ssh/priv_key" \
+  -var "ssh_fingerprint=75:b0:fc:16:8a:f6:32:a7:fe:a5:93:90:ad:b8:0a:12"
+
+# Backup important stuff
+
+TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress_bu.yml
+```
+
+To destroy everything:
+- `terraform apply "wordpress_down.tfplan"`

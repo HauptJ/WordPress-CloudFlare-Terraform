@@ -5,6 +5,7 @@
 *.vault
 vault.yml
 plan.sh
+build.sh
 destroy.sh
 variables.tf
 # have to support both UNIX and DOS directories
@@ -16,3 +17,8 @@ variables.tf
 /plugins
 \inventory
 /inventory
+\uploads
+/uploads
+\databases
+/databases
+ssh_config
