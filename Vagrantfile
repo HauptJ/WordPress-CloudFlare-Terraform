@@ -109,7 +109,7 @@ Vagrant.configure("2") do |config|
   		# With nested virtualization, at least 4GB of memory is needed.
   		hv.memory = $vmem
       # Faster cloning and uses less disk space
-      hv.differencing_disk = true
+      hv.linked_clone = true
   	end
 
     # Provision box
