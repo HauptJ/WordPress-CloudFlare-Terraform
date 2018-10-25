@@ -4,7 +4,7 @@
 # commented out commands. See: Vagrantfile
 
 $centos_box = "hauptj/CentOS75"
-$centos_box_ver = "1.1.0"
+$centos_box_ver = "1.2.1"
 $utility_vmname = "terraform"
 $ssh_user = "root"
 

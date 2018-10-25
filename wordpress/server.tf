@@ -47,6 +47,6 @@ resource "digitalocean_droplet" "wordpress" {
 
   # Provision server
   provisioner "local-exec" {
-    command = "TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress.yml"
+    command = "TF_STATE=terraform.tfstate ansible-playbook --private-key=~/.ssh/deploy.key --inventory-file=~/go/bin/terraform-inventory ../ansible/wordpress.yml --skip-tags "new,repo,test,close_ports""
   }
 }

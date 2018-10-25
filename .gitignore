@@ -15,8 +15,6 @@ variables.tf
 /.terraform
 \plugins
 /plugins
-\inventory
-/inventory
 \uploads
 /uploads
 \databases
